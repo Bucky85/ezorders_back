@@ -15,4 +15,4 @@ Requirement :
   - III. Install mongodb https://www.mongodb.com/dr/fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-3.6.3-signed.msi/download
   - IV. git clone https://github.com/Bucky85/ezorders_back.git
   - V. composer install
-  - VI. To launch web server : composer run-script dev_init
+  - VI. To launch web server : composer run-script dev
