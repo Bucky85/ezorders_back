@@ -8,7 +8,7 @@
         }
     ],
     "scripts": {
-        "dev_init": "php -S localhost:8080"
+        "dev": "php -S localhost:8080"
     },
     "require": {
 		"mongodb/mongodb": "^1.3",
