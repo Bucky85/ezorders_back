@@ -12,7 +12,7 @@ Requirement :
       - extension=php_mongodb.dll
       - extension=openssl
   - II. Add the driver https://pecl.php.net/package/mongodb/1.4.2/windows in C:\php\%extension_dir%
-  - III. Install mongodb
+  - III. Install mongodb https://www.mongodb.com/download-center#community
   - IV. git clone https://github.com/Bucky85/ezorders_back.git
   - V. composer install
   - VI. To launch web server : composer run-script dev_init
