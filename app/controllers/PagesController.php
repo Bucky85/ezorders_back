@@ -14,10 +14,11 @@ class PagesController
 
     public function login(Request $request, Response $response)
     {
-        $login = $request->getAttribute('login');
-        $password = $request->getAttribute('password');
+        // Get param in body
+        $login = $request->getParam('login');
+        $password = $request->getParam('password');
 
         $db = new Db();
-        return $db->getAuthStatus($login, $password, $response);
+        return $db->auth($login, $password, $response);
     }
 }
