@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\database\db;
+use app\database\Db;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -12,7 +12,7 @@ class PagesController
     {
     }
 
-    public function login(Request $request, Response $response)
+    public function auth(Request $request, Response $response)
     {
         // Get param in body
         $login = $request->getParam('login');

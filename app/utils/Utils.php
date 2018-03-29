@@ -25,6 +25,10 @@ class Utils
         $_SESSION['id'] = $id['_id'];
     }
 
+    /**
+     * Check if user authentified
+     * @return bool -> True if authentified, false is not
+     */
     function check_auth()
     {
         if (!empty($_SESSION['id'])) {

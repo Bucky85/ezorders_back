@@ -6,7 +6,7 @@
  * Time: 11:02 AM
  */
 
-namespace App\database;
+namespace app\database;
 
 use app\utils\Utils;
 use MongoDB\Client;

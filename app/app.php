@@ -16,4 +16,4 @@ $app = new \Slim\App([
 $app->get('/', \app\controllers\PagesController::class . ':home');
 
 //Login controller
-$app->post('/auth', \app\controllers\PagesController::class . ':login');
+$app->post('/auth', \app\controllers\PagesController::class . ':auth');
