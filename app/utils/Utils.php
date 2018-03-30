@@ -8,6 +8,8 @@
 
 namespace app\utils;
 
+use MongoDB;
+
 
 class Utils
 {
@@ -22,7 +24,7 @@ class Utils
             session_destroy();
         }
         session_start();
-        $_SESSION['id'] = $id['_id'];
+        $_SESSION['id'] = (string)new MongoDB\BSON\ObjectId($id['_id']);
     }
 
     /**

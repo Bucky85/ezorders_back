@@ -34,24 +34,26 @@ class Db
             // Search in database if $login and $password are given
             $passwordEncrypt = hash('SHA512', $password);
             $queryAuth = ['auth.login' => $login, 'auth.password' => $passwordEncrypt];
-            $projectionAuth = ['projection' => ['_id' => 1]];
+            $projectionAuth = ['projection' => ['oid' => 1]];
             $cursor = $collection->find($queryAuth, $projectionAuth);
             //fetch data
             foreach ($cursor as $doc) {
                 $id = $doc;
             }
-            // if data not found
+            // if data not found bad request
             if (empty($id)) {
                 return $response->withStatus(400);
+                // if data is ok send id
             } else {
                 $u = new Utils();
                 $u->create_session($id);
-                return $response->withStatus(200)
+                return $response
+                    ->withStatus(200)
                     ->withHeader('Content-type', 'application/json')
-                    ->write(json_encode($_SESSION['id']));
+                    ->write(json_encode(array('id' => $_SESSION['id'])));
             }
         } else {
-            //If login or password is not given
+            //If login or password is not given bad request
             return $response->withStatus(400);
         }
     }

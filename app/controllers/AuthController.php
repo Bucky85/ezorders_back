@@ -38,10 +38,10 @@ class AuthController
     public function auth_current(Request $request, Response $response)
     {
         $u = new Utils();
-        $checkauth = array("authentified" => $u->check_auth());
+        $data = array("authentified" => $u->check_auth());
         return $response
             ->withStatus(200)
             ->withHeader('Content-type', 'application/json')
-            ->write(json_encode($checkauth));
+            ->write(json_encode($data));
     }
 }
