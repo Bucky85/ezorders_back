@@ -3,8 +3,6 @@
  * User: czimmer
  */
 
-use Tuupola\Middleware\CorsMiddleware;
-
 require '../vendor/autoload.php';
 
 //Slim settings
@@ -14,11 +12,14 @@ $app = new \Slim\App([
     ]
 ]);
 
-//
-header('Access-Control-Allow-Origin: *');
-
 //Home controller
 $app->get('/', \app\controllers\HomeController::class . ':home');
+
+$app->options('/[{path:.*}]', function ($request, $response, $path = null) {
+    return $response->withHeader('Access-Control-Allow-Origin', '')
+        ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+});
 
 //Auth controller
 $app->post('/auth', \app\controllers\AuthController::class . ':auth');
