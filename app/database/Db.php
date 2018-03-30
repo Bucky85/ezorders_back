@@ -46,8 +46,9 @@ class Db
             } else {
                 $u = new Utils();
                 $u->create_session($id);
-                $response->write($_SESSION['id']);
-                return $response->withStatus(200);
+                return $response->withStatus(200)
+                    ->withHeader('Content-type', 'application/json')
+                    ->write(json_encode($_SESSION['id']));
             }
         } else {
             //If login or password is not given

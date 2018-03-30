@@ -33,17 +33,15 @@ class AuthController
     /**
      * Function called by the route %server%/auth/current
      * Use to know if user is authentified
-     * if true : return request 200 with id
-     * if false : return request 400
+     * send result check auth
      */
     public function auth_current(Request $request, Response $response)
     {
         $u = new Utils();
-        if ($u->check_auth()) {
-            $response->write($_SESSION['id']);
-            return $response->withStatus(200);
-        } else {
-            return $response->withStatus(401);
-        }
+        $checkauth = array("authentified" => $u->check_auth());
+        return $response
+            ->withStatus(200)
+            ->withHeader('Content-type', 'application/json')
+            ->write(json_encode($checkauth));
     }
 }
