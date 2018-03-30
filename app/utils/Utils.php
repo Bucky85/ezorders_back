@@ -6,7 +6,7 @@
  * Time: 2:51 PM
  */
 
-namespace App\utils;
+namespace app\utils;
 
 
 class Utils
@@ -31,8 +31,6 @@ class Utils
      */
     function check_auth()
     {
-        if (!empty($_SESSION['id'])) {
-            return true;
-        } else return false;
+        return (!empty($_SESSION['id']));
     }
 }
