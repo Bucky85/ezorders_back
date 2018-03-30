@@ -32,7 +32,8 @@ class Db
         $collection = $db->shop;
         if (!empty($login) && !empty($password)) {
             // Search in database if $login and $password are given
-            $queryAuth = ['auth.login' => $login, 'auth.password' => $password];
+            $passwordEncrypt = hash('SHA512', $password);
+            $queryAuth = ['auth.login' => $login, 'auth.password' => $passwordEncrypt];
             $projectionAuth = ['projection' => ['_id' => 1]];
             $cursor = $collection->find($queryAuth, $projectionAuth);
             //fetch data
