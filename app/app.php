@@ -13,7 +13,9 @@ $app = new \Slim\App([
 ]);
 
 //Home controller
-$app->get('/', \app\controllers\PagesController::class . ':home');
+$app->get('/', \app\controllers\HomeController::class . ':home');
 
-//Login controller
-$app->post('/auth', \app\controllers\PagesController::class . ':auth');
+//Auth controller
+$app->post('/auth', \app\controllers\AuthController::class . ':auth');
+$app->get('/auth/current', \app\controllers\AuthController::class . ':auth_current');
+
