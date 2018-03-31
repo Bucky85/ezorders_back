@@ -8,13 +8,37 @@
 
 namespace App\controllers;
 
-use app\database\Db;
+use app\database\DbAuth;
 use app\utils\Utils;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class AuthController
 {
+    /**
+     * Function called by the route %server%/auth/signin
+     * Use to create an account
+     */
+    public function auth_signin(Request $request, Response $response)
+    {
+        $data = $request->getParsedBody();
+        $db = new DbAuth();
+        if ($db->db_signin($data)) {
+            return $response
+                ->withStatus(201)
+                ->withHeader('Content-type', 'application/json')
+                ->write(json_encode(array(
+                    "inserted" => "true",
+                    "message" => "Successfully inserted")));
+        } else {
+            return $response
+                ->withStatus(400)
+                ->withHeader('Content-type', 'application/json')
+                ->write(json_encode(array(
+                    "inserted" => "false",
+                    "message" => "Email already exist")));
+        }
+    }
 
     /**
      * Function called by the route %server%/auth
@@ -22,26 +46,28 @@ class AuthController
      */
     public function auth(Request $request, Response $response)
     {
-        // Get param in body
-        $login = $request->getParam('login');
-        $password = $request->getParam('password');
-
-        $db = new Db();
-        return $db->auth($login, $password, $response);
+        $db = new DbAuth();
+        if ($db->db_auth($request->getParam('login'), $request->getParam('password')) == true) {
+            return $response
+                ->withStatus(200)
+                ->withHeader('Content-type', 'application/json')
+                ->write(json_encode(array('id' => $_SESSION['id'])));
+        } else {
+            return $response->withStatus(400);
+        }
     }
 
     /**
      * Function called by the route %server%/auth/current
      * Use to know if user is authentified
-     * send result check auth
+     * send result function check auth
      */
     public function auth_current(Request $request, Response $response)
     {
         $u = new Utils();
-        $data = array("authentified" => $u->check_auth());
         return $response
             ->withStatus(200)
             ->withHeader('Content-type', 'application/json')
-            ->write(json_encode($data));
+            ->write(json_encode(array("authentified" => $u->check_auth())));
     }
 }

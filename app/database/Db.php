@@ -2,59 +2,24 @@
 /**
  * Created by PhpStorm.
  * User: czimmer
- * Date: 28-Mar-18
- * Time: 11:02 AM
+ * Date: 31-Mar-18
+ * Time: 5:12 PM
  */
 
-namespace app\database;
-
-use app\utils\Utils;
+namespace App\database;
 use MongoDB\Client;
 
 
 class Db
 {
-    /**
-     * Function called by the route %server%/auth
-     * Use to authenticate a user
-     * @param null $login -> Login send by front in http body
-     * @param null $password -> Password send by front in http body
-     * @param $response -> http response use to change status code
-     * @return if login and password is ok : $_SESSION['id']
-     *         if login and password is nok : return status code 400
+    /** Use to connect to collection shop on database
+     * @return \MongoDB\Collection
      */
-    function auth($login = null, $password = null, $response)
+    function db_connect()
     {
         $m = new Client(); // connexion
-        // select db
-        $db = $m->ezorders;
-        // select collection
-        $collection = $db->shop;
-        if (!empty($login) && !empty($password)) {
-            // Search in database if $login and $password are given
-            $passwordEncrypt = hash('SHA512', $password);
-            $queryAuth = ['auth.login' => $login, 'auth.password' => $passwordEncrypt];
-            $projectionAuth = ['projection' => ['oid' => 1]];
-            $cursor = $collection->find($queryAuth, $projectionAuth);
-            //fetch data
-            foreach ($cursor as $doc) {
-                $id = $doc;
-            }
-            // if data not found bad request
-            if (empty($id)) {
-                return $response->withStatus(400);
-                // if data is ok send id
-            } else {
-                $u = new Utils();
-                $u->create_session($id);
-                return $response
-                    ->withStatus(200)
-                    ->withHeader('Content-type', 'application/json')
-                    ->write(json_encode(array('id' => $_SESSION['id'])));
-            }
-        } else {
-            //If login or password is not given bad request
-            return $response->withStatus(400);
-        }
+        $collection = $m->ezorders->shop;
+        return $collection;
     }
+
 }
