@@ -29,14 +29,14 @@ class AuthController
                 ->withHeader('Content-type', 'application/json')
                 ->write(json_encode(array(
                     "inserted" => "true",
-                    "message" => "Successfully inserted")));
+                    "message" => "successfully inserted")));
         } else {
             return $response
                 ->withStatus(400)
                 ->withHeader('Content-type', 'application/json')
                 ->write(json_encode(array(
                     "inserted" => "false",
-                    "message" => "Email already exist")));
+                    "message" => "login already exist")));
         }
     }
 
