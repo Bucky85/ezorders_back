@@ -8,7 +8,7 @@
 
 namespace app\database;
 
-use app\utils\Utils;
+use MongoDB;
 
 
 class DbAuth extends Db
@@ -60,7 +60,7 @@ class DbAuth extends Db
     {
         $collection = $this->db_connect();
         if (!empty($login) && !empty($password)) {
-            // Search in database if $login and $password are given
+            // SEARCH IN DATABASE IF $PASSWORD AND $LOGIN ARE GIVEN
             $passwordEncrypt = hash('SHA512', $password);
             $queryAuth = ['auth.login' => $login, 'auth.password' => $passwordEncrypt];
             $projectionAuth = ['projection' => ['oid' => 1]];
@@ -69,17 +69,24 @@ class DbAuth extends Db
             foreach ($cursor as $doc) {
                 $id = $doc;
             }
-            // if data not found bad request
+            //GET ID CORRESPOND TO LOGIN AND PASSWORD
+            $id = (string)new MongoDB\BSON\ObjectId($id['_id']);
+            // IF DATA NOT FOUND RETURN FALSE
             if (empty($id)) {
                 return false;
-                // if data is ok send id
+                //IF ID FOUND SEND BACK
             } else {
-                $u = new Utils();
-                $u->create_session($id);
-                return true;
+                if (!empty($_SESSION[$id])) {
+                    session_unset();
+                    session_destroy();
+                }
+                //CREATE ID SESSION
+                session_start();
+                $_SESSION[$id] = $id;
+                return $id;
             }
         } else {
-            //If login or password are not given
+            //IF LOGIN OR PASSWORD NOT GIVEN RETURN FALSE
             return false;
         }
     }

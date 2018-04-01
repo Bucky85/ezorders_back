@@ -1,0 +1,81 @@
+{
+  "type": "object",
+  "properties": {
+    "auth": {
+      "$id": "/properties/auth",
+      "type": "object",
+      "properties": {
+        "login": {
+          "$id": "/properties/auth/properties/login",
+          "type": "string",
+          "examples": [
+            "czimmer@gmail.com"
+          ]
+        },
+        "password": {
+          "$id": "/properties/auth/properties/password",
+          "type": "string",
+          "examples": [
+            "czimmer"
+          ]
+        }
+      },
+      "required": [
+        "login",
+        "password"
+      ]
+    },
+    "info": {
+      "$id": "/properties/info",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$id": "/properties/info/properties/name",
+          "type": "string",
+          "examples": [
+            "Le PatatiPatata"
+          ]
+        },
+        "address": {
+          "$id": "/properties/info/properties/address",
+          "type": "string",
+          "examples": [
+            "33 rue de ajoncs"
+          ]
+        },
+        "postcode": {
+          "$id": "/properties/info/properties/postcode",
+          "type": "string",
+          "examples": [
+            "76333"
+          ]
+        },
+        "location": {
+          "$id": "/properties/info/properties/location",
+          "type": "string",
+          "examples": [
+            "France"
+          ]
+        },
+        "tel": {
+          "$id": "/properties/info/properties/tel",
+          "type": "string",
+          "examples": [
+            "068835102"
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "address",
+        "postcode",
+        "location",
+        "tel"
+      ]
+    }
+  },
+  "required": [
+    "auth",
+    "info"
+  ]
+}

@@ -8,32 +8,30 @@
 
 namespace app\utils;
 
-use MongoDB;
-
-
 class Utils
 {
     /**
-     * Create $_SESSION['id'] -> id of shop
-     * @param $data
+     * Use to write http response with parameters
+     * @param $response
+     * @param $httpStatus
+     * @param null $data
+     * @return $response updated
      */
-    function create_session($id)
+    static function update_response($response, $httpStatus, $data = null)
     {
-        if (!empty($_SESSION['id'])) {
-            session_unset();
-            session_destroy();
-        }
-        session_start();
-        $_SESSION['id'] = (string)new MongoDB\BSON\ObjectId($id['_id']);
+        return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus($httpStatus)
+            ->write(json_encode($data));
     }
 
     /**
-     * Check if user authentified
-     * @return bool -> True if authentified, false is not
+     * Use to know if user is log
+     * @param $id
+     * @return bool
      */
-    function check_auth()
+    static function check_auth($id)
     {
-        session_start();
-        return (!empty($_SESSION['id']));
+        return !(empty($_SESSION[$id]));
     }
 }

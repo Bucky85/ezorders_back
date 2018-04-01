@@ -4,7 +4,7 @@
  */
 
 
-require '../app/app.php';
+require '../app/routes.php';
 
 try {
     $app->run();
