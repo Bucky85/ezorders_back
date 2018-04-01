@@ -109,7 +109,7 @@ class AuthController
             $data = array('message' => "user disconnected");
         } else {
             $httpStatus = 400;
-            $data = array('message' => "bad id or user not log");
+            $data = array('message' => "user not log");
         }
         return Utils::update_response($response, $httpStatus, $data);
     }
