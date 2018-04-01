@@ -25,7 +25,7 @@ class AuthController
     {
         //CHECK JSON FORMAT
         $data = json_decode($request->getBody());
-        $schema = realpath(__DIR__ . '/schemas/signin.json');
+        $schema = realpath(__DIR__ . '\schemas\signin.json');
         $validator = new JsonSchema\Validator;
         $validator->validate($data, (object)['$ref' => $schema]);
         //IF FORMAT IS OK SET RESPONSE
