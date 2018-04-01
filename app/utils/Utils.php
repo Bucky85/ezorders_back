@@ -20,6 +20,7 @@ class Utils
     static function update_response($response, $httpStatus, $data = null)
     {
         return $response
+            ->withHeader('Content-type', 'application/json')
             ->withStatus($httpStatus)
             ->write(json_encode($data));
     }
