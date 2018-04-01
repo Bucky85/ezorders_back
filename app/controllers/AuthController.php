@@ -89,8 +89,7 @@ class AuthController
     public function auth_current($request, $response)
     {
         session_start();
-        $id = $request->getAttribute('id');
-        return Utils::update_response($response, 200, array("authentified" => Utils::check_auth($id)));
+        return Utils::update_response($response, 200, array("authentified" => Utils::check_auth()));
 
     }
 
@@ -104,8 +103,6 @@ class AuthController
     public function auth_signout(Request $request, Response $response)
     {
         session_start();
-        $id = $request->getAttribute('id');
-
         if (Utils::check_auth()) {
             unset($_SESSION['id']);
             $httpStatus = 200;
