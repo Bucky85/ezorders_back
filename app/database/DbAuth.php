@@ -69,8 +69,6 @@ class DbAuth extends Db
             foreach ($cursor as $doc) {
                 $id = $doc;
             }
-            //GET ID CORRESPOND TO LOGIN AND PASSWORD
-            $id = (string)new MongoDB\BSON\ObjectId($id['_id']);
             // IF DATA NOT FOUND RETURN FALSE
             if (empty($id)) {
                 return false;
@@ -82,6 +80,8 @@ class DbAuth extends Db
                 }
                 //CREATE ID SESSION
                 session_start();
+                //GET ID CORRESPOND TO LOGIN AND PASSWORD
+                $id = (string)new MongoDB\BSON\ObjectId($id['_id']);
                 $_SESSION['id'] = $id;
                 return true;
             }
