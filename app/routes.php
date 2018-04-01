@@ -12,7 +12,7 @@ $app = new \Slim\App([
     ]
 ]);
 
-//Adapt route allow-origin
+//Adapt header route
 $app->add(function ($request, $response, $next) {
     if ($request->getMethod() !== "OPTIONS") {
         header('Access-Control-Allow-Origin: http://localhost:3000');
