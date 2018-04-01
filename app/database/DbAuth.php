@@ -76,14 +76,14 @@ class DbAuth extends Db
                 return false;
                 //IF ID FOUND SEND BACK
             } else {
-                if (!empty($_SESSION[$id])) {
+                if (!empty($_SESSION['id'])) {
                     session_unset();
                     session_destroy();
                 }
                 //CREATE ID SESSION
                 session_start();
-                $_SESSION[$id] = $id;
-                return $id;
+                $_SESSION['id'] = $id;
+                return true;
             }
         } else {
             //IF LOGIN OR PASSWORD NOT GIVEN RETURN FALSE

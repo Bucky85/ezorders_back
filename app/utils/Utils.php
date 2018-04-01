@@ -30,8 +30,8 @@ class Utils
      * @param $id
      * @return bool
      */
-    static function check_auth($id)
+    static function check_auth()
     {
-        return !(empty($_SESSION[$id]));
+        return !(empty($_SESSION['id']));
     }
 }

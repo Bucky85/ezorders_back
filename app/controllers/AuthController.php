@@ -71,10 +71,9 @@ class AuthController
     public function auth(Request $request, Response $response)
     {
         $db = new DbAuth();
-        $id = $db->db_auth($request->getParam('login'), $request->getParam('password'));
-        if (!empty($id)) {
+        if ($db->db_auth($request->getParam('login'), $request->getParam('password'))) {
             $httpStatus = 200;
-            $data = array('id' => $id);
+            $data = array('id' => $_SESSION['id']);
         } else {
             $httpStatus = 400;
             $data = null;
@@ -107,8 +106,8 @@ class AuthController
         session_start();
         $id = $request->getAttribute('id');
 
-        if (Utils::check_auth($id)) {
-            unset($_SESSION[$id]);
+        if (Utils::check_auth()) {
+            unset($_SESSION['id']);
             $httpStatus = 200;
             $data = array('message' => "user disconnected");
         } else {
