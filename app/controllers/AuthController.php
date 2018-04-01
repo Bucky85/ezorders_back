@@ -14,6 +14,7 @@ use JsonSchema;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+
 class AuthController
 {
     /**
@@ -24,7 +25,7 @@ class AuthController
     {
         //CHECK JSON FORMAT
         $data = json_decode($request->getBody());
-        $schema = __DIR__ . '/schemas/signin.json';
+        $schema = realpath(__DIR__ . '/schemas/signin.json');
         $validator = new JsonSchema\Validator;
         $validator->validate($data, (object)['$ref' => $schema]);
         //IF FORMAT IS OK SET RESPONSE
