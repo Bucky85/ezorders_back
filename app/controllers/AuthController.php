@@ -82,11 +82,11 @@ class AuthController
     }
 
     /**
-     * Function called by the route %server%/auth/current/%id%
+     * Function called by the route %server%/auth/current
      * Use to know if user is authentified
      * send result function check auth
      */
-    public function auth_current($request, $response)
+    public function auth_current(Request $request, Response $response)
     {
         session_start();
         return Utils::update_response($response, 200, array("authentified" => Utils::check_auth()));
@@ -94,7 +94,7 @@ class AuthController
     }
 
     /**
-     * Function called by the route %server%/auth/signout/%id%
+     * Function called by the route %server%/auth/signout
      * Use to disconnect a user on a user
      * @param Request $request
      * @param Response $response

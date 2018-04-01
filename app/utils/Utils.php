@@ -27,7 +27,6 @@ class Utils
 
     /**
      * Use to know if user is log
-     * @param $id
      * @return bool
      */
     static function check_auth()
