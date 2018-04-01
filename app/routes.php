@@ -16,6 +16,7 @@ $app = new \Slim\App([
 $app->add(function ($request, $response, $next) {
     if ($request->getMethod() !== "OPTIONS") {
         header('Access-Control-Allow-Origin: http://localhost:3000');
+        header('Access-Control-Allow-Credentials: true');
     }
     $response = $next($request, $response);
     return $response;
@@ -25,7 +26,8 @@ $app->options('/[{path:.*}]', function ($request, $response, $path = null) {
     return $response
         ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
         ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
-        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+        ->withHeader('Access-Control-Allow-Crendentials', 'true');
 });
 
 //Home controller
