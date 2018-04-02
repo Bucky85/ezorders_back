@@ -27,7 +27,7 @@ $app->options('/[{path:.*}]', function ($request, $response, $path = null) {
         ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
         ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
         ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-        ->withHeader('Access-Control-Allow-Crendentials', 'true');
+        ->withHeader('Access-Control-Allow-Credentials', 'true');
 });
 
 //Home controller
@@ -37,5 +37,5 @@ $app->get('/', \app\controllers\HomeController::class . ':home');
 $app->put('/auth/signin', \app\controllers\AuthController::class . ':auth_signin');
 $app->post('/auth', \app\controllers\AuthController::class . ':auth');
 $app->get('/auth/current', \app\controllers\AuthController::class . ':auth_current');
-$app->get('/auth/signout', \app\controllers\AuthController::class . ':auth_signout');
+$app->delete('/auth/signout', \app\controllers\AuthController::class . ':auth_signout');
 

@@ -102,14 +102,13 @@ class AuthController
      */
     public function auth_signout(Request $request, Response $response)
     {
-        session_start();
         if (Utils::check_auth()) {
-            unset($_SESSION['id']);
+            session_destroy();
             $httpStatus = 200;
             $data = array('message' => "user disconnected");
         } else {
             $httpStatus = 400;
-            $data = array('message' => "user not log");
+            $data = array('message' => "user not logged");
         }
         return Utils::update_response($response, $httpStatus, $data);
     }

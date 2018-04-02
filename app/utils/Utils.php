@@ -31,6 +31,7 @@ class Utils
      */
     static function check_auth()
     {
+        session_start();
         return !(empty($_SESSION['id']));
     }
 }
