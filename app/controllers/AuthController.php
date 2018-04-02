@@ -21,7 +21,7 @@ class AuthController
      * Function called by the route %server%/auth/signin
      * Use to create an account
      */
-    public function auth_signin(Request $request, Response $response)
+    function auth_signin(Request $request, Response $response)
     {
         //CHECK JSON FORMAT
         $data = json_decode($request->getBody());
@@ -68,15 +68,15 @@ class AuthController
      * Use to authenticate a user
      * @Return id of user or nothing
      */
-    public function auth(Request $request, Response $response)
+    function auth(Request $request, Response $response)
     {
         $db = new DbAuth();
         if ($db->db_auth($request->getParam('login'), $request->getParam('password'))) {
             $httpStatus = 200;
-            $data = array('id' => $_SESSION['id']);
+            $data = array('message' => 'user successfully connect');
         } else {
             $httpStatus = 400;
-            $data = null;
+            $data = array('message' => 'bad login or password');
         }
         return Utils::update_response($response, $httpStatus, $data);
     }
@@ -86,13 +86,11 @@ class AuthController
      * Use to know if user is authentified
      * send result function check auth
      */
-    public function auth_current(Request $request, Response $response)
+    function auth_current(Request $request, Response $response)
     {
-        session_start();
         return Utils::update_response($response, 200, array("authentified" => Utils::check_auth()));
-
     }
-
+    
     /**
      * Function called by the route %server%/auth/signout
      * Use to disconnect a user on a user
@@ -100,7 +98,7 @@ class AuthController
      * @param Response $response
      * @return response
      */
-    public function auth_signout(Request $request, Response $response)
+    function auth_signout(Request $request, Response $response)
     {
         if (Utils::check_auth()) {
             session_destroy();

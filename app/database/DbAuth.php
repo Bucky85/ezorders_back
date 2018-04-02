@@ -8,8 +8,8 @@
 
 namespace app\database;
 
+use app\utils\Utils;
 use MongoDB;
-
 
 class DbAuth extends Db
 {
@@ -20,33 +20,17 @@ class DbAuth extends Db
     function db_signin($data)
     {
         $collection = $this->db_connect();
-        //encrypt the password
+        //ENCRYPT THE PASSWORD
         $data["auth"]["password"] = hash('SHA512', $data["auth"]["password"]);
-        //Get login send
-        $login = $data["auth"]["login"];
-        if ($this->check_login_in_db($collection, $login)) {
+        //GET LOGIN SEND
+        $query = ['auth.login' => $data["auth"]["login"]];
+        $projection = ['projection' => ['login' => 1]];
+        //IF LOGIN ALREADY EXIST
+        if (empty($this->db_query($query, $projection))) {
             $collection->insertOne($data);
             return true;
         }
         return false;
-    }
-
-    /**
-     * Check if login is already in db
-     * @collection collection in db
-     * @login login checked
-     * @return true if empty else false
-     */
-    function check_login_in_db($collection, $login)
-    {
-        //Check if login exist
-        $queryAuth = ['auth.login' => $login];
-        $projectionAuth = ['projection' => ['login' => 1]];
-        $cursor = $collection->find($queryAuth, $projectionAuth);
-        foreach ($cursor as $doc) {
-            $loginInDb = $doc;
-        }
-        return empty($loginInDb);
     }
 
     /**
@@ -58,28 +42,21 @@ class DbAuth extends Db
      */
     function db_auth($login = null, $password = null)
     {
-        $collection = $this->db_connect();
         if (!empty($login) && !empty($password)) {
             // SEARCH IN DATABASE IF $PASSWORD AND $LOGIN ARE GIVEN
             $passwordEncrypt = hash('SHA512', $password);
-            $queryAuth = ['auth.login' => $login, 'auth.password' => $passwordEncrypt];
-            $projectionAuth = ['projection' => ['oid' => 1]];
-            $cursor = $collection->find($queryAuth, $projectionAuth);
-            //fetch data
-            foreach ($cursor as $doc) {
-                $id = $doc;
-            }
+            $query = ['auth.login' => $login, 'auth.password' => $passwordEncrypt];
+            $projection = ['projection' => ['oid' => 1]];
+            $id = $this->db_query($query, $projection);
             // IF DATA NOT FOUND RETURN FALSE
             if (empty($id)) {
                 return false;
                 //IF ID FOUND SEND BACK
             } else {
-                if (!empty($_SESSION['id'])) {
-                    session_unset();
+                //CREATE ID SESSION
+                if (Utils::check_auth()) {
                     session_destroy();
                 }
-                //CREATE ID SESSION
-                session_start();
                 //GET ID CORRESPOND TO LOGIN AND PASSWORD
                 $id = (string)new MongoDB\BSON\ObjectId($id['_id']);
                 $_SESSION['id'] = $id;

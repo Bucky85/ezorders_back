@@ -9,7 +9,6 @@
 namespace App\database;
 use MongoDB\Client;
 
-
 class Db
 {
     /** Use to connect to collection shop on database
@@ -17,9 +16,27 @@ class Db
      */
     function db_connect()
     {
+        $data = null;
         $m = new Client(); // connexion
         $collection = $m->ezorders->shop;
         return $collection;
     }
 
+    /**
+     * Use to search something on the database
+     * @param $query
+     * @param null $projection
+     * @return null
+     */
+    function db_query($query, $projection = null)
+    {
+        $data = null;
+        $collection = $this->db_connect();
+        $cursor = $collection->find($query, $projection);
+        //fetch data
+        foreach ($cursor as $doc) {
+            $data = $doc;
+        }
+        return $data;
+    }
 }
