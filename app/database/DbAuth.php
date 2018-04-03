@@ -67,4 +67,13 @@ class DbAuth extends Db
             return false;
         }
     }
+
+    function db_auth_info()
+    {
+        $query = ['_id' => new MongoDB\BSON\ObjectId($_SESSION['id'])];
+        $projection = ['projection' => ['_id' => 0, 'auth.login' => 1, 'info' => 1]];
+        $data = $this->db_query($query, $projection);
+
+        return $data;
+    }
 }

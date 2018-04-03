@@ -37,6 +37,6 @@ $app->get('/', \app\controllers\HomeController::class . ':home');
 $app->put('/auth/signin', \app\controllers\AuthController::class . ':auth_signin');
 $app->post('/auth', \app\controllers\AuthController::class . ':auth');
 $app->get('/auth/current', \app\controllers\AuthController::class . ':auth_current');
-$app->get('/auth/inf', \app\controllers\AuthController::class . ':auth_current');
+$app->get('/auth/info', \app\controllers\AuthController::class . ':auth_info');
 $app->delete('/auth/signout', \app\controllers\AuthController::class . ':auth_signout');
 

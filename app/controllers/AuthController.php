@@ -51,7 +51,6 @@ class AuthController
             $errors = null;
             foreach ($validator->getErrors() as $error) {
                 $i++;
-                //$data['message' . $i] = $error['message'];
                 $errors[$i] = $error['message'];
             }
             //GENERATE DATA FOR THE REQUEST
@@ -90,7 +89,21 @@ class AuthController
     {
         return Utils::update_response($response, 200, array("authentified" => Utils::check_auth()));
     }
-    
+
+    function auth_info(Request $request, Response $response)
+    {
+        if (Utils::check_auth()) {
+            $httpStatus = 200;
+            $db = new DbAuth();
+            $data = $db->db_auth_info();
+        } else {
+            $httpStatus = 401;
+            $data = array('message' => "user not logged");
+        }
+        return Utils::update_response($response, $httpStatus, $data);
+
+    }
+
     /**
      * Function called by the route %server%/auth/signout
      * Use to disconnect a user on a user
@@ -105,7 +118,7 @@ class AuthController
             $httpStatus = 200;
             $data = array('message' => "user disconnected");
         } else {
-            $httpStatus = 400;
+            $httpStatus = 401;
             $data = array('message' => "user not logged");
         }
         return Utils::update_response($response, $httpStatus, $data);

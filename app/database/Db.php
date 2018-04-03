@@ -28,7 +28,7 @@ class Db
      * @param null $projection
      * @return null
      */
-    function db_query($query, $projection = null)
+    function db_query($query, $projection = [])
     {
         $data = null;
         $collection = $this->db_connect();
