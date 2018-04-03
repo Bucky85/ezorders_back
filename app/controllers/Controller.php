@@ -2,13 +2,13 @@
 /**
  * Created by PhpStorm.
  * User: czimmer
- * Date: 29-Mar-18
- * Time: 2:51 PM
+ * Date: 03-Apr-18
+ * Time: 6:04 PM
  */
 
-namespace app\utils;
+namespace app\controllers;
 
-class Utils
+class Controller
 {
     /**
      * Use to write http response with parameters
@@ -17,7 +17,7 @@ class Utils
      * @param null $data
      * @return $response updated
      */
-    static function update_response($response, $httpStatus, $data = null)
+    function controller_response($response, $httpStatus, $data = null)
     {
         return $response
             ->withHeader('Content-type', 'application/json')
@@ -26,10 +26,10 @@ class Utils
     }
 
     /**
-     * Use to know if user is log
+     * Use to know if user is logged
      * @return bool
      */
-    static function check_auth()
+    function check_auth()
     {
         session_start();
         return !(empty($_SESSION['id']));

@@ -53,11 +53,8 @@ class DbAuth extends Db
                 return false;
                 //IF ID FOUND SEND BACK
             } else {
-                //CREATE ID SESSION
-                if (Utils::check_auth()) {
-                    session_destroy();
-                }
                 //GET ID CORRESPOND TO LOGIN AND PASSWORD
+                session_start();
                 $id = (string)new MongoDB\BSON\ObjectId($id['_id']);
                 $_SESSION['id'] = $id;
                 return true;
@@ -68,12 +65,15 @@ class DbAuth extends Db
         }
     }
 
+    /** Function called by the route %server%/auth/info
+     *  Use to know info of user logged
+     * @return data info of user
+     */
     function db_auth_info()
     {
         $query = ['_id' => new MongoDB\BSON\ObjectId($_SESSION['id'])];
         $projection = ['projection' => ['_id' => 0, 'auth.login' => 1, 'info' => 1]];
         $data = $this->db_query($query, $projection);
-
         return $data;
     }
 }

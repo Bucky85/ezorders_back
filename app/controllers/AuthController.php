@@ -9,13 +9,12 @@
 namespace app\controllers;
 
 use app\database\DbAuth;
-use app\utils\Utils;
 use JsonSchema;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 
-class AuthController
+class AuthController extends Controller
 {
     /**
      * Function called by the route %server%/auth/signin
@@ -59,7 +58,7 @@ class AuthController
                 "inserted" => "false",
                 "message" => $errors);
         }
-        return Utils::update_response($response, $httpStatus, $data);
+        return $this->controller_response($response, $httpStatus, $data);
     }
 
     /**
@@ -77,7 +76,7 @@ class AuthController
             $httpStatus = 400;
             $data = array('message' => 'bad login or password');
         }
-        return Utils::update_response($response, $httpStatus, $data);
+        return $this->controller_response($response, $httpStatus, $data);
     }
 
     /**
@@ -87,12 +86,18 @@ class AuthController
      */
     function auth_current(Request $request, Response $response)
     {
-        return Utils::update_response($response, 200, array("authentified" => Utils::check_auth()));
+        return $this->controller_response($response, 200, array("authentified" => $this->check_auth()));
     }
 
+    /**
+     * Use to know info of user logged
+     * @param Request $request
+     * @param Response $response
+     * @return mixed
+     */
     function auth_info(Request $request, Response $response)
     {
-        if (Utils::check_auth()) {
+        if ($this->check_auth()) {
             $httpStatus = 200;
             $db = new DbAuth();
             $data = $db->db_auth_info();
@@ -100,7 +105,7 @@ class AuthController
             $httpStatus = 401;
             $data = array('message' => "user not logged");
         }
-        return Utils::update_response($response, $httpStatus, $data);
+        return $this->controller_response($response, $httpStatus, $data);
 
     }
 
@@ -113,7 +118,7 @@ class AuthController
      */
     function auth_signout(Request $request, Response $response)
     {
-        if (Utils::check_auth()) {
+        if ($this->check_auth()) {
             session_destroy();
             $httpStatus = 200;
             $data = array('message' => "user disconnected");
@@ -121,6 +126,6 @@ class AuthController
             $httpStatus = 401;
             $data = array('message' => "user not logged");
         }
-        return Utils::update_response($response, $httpStatus, $data);
+        return $this->controller_response($response, $httpStatus, $data);
     }
 }

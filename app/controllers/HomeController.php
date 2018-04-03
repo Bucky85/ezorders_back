@@ -2,16 +2,14 @@
 
 namespace app\controllers;
 
-
-use app\utils\Utils;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class HomeController
+class HomeController extends Controller
 {
     public function home(Request $request, Response $response)
     {
-        return Utils::update_response($response, 200)
+        return $this->controller_response($response, 200)
             ->withRedirect("http://" . $_SERVER['SERVER_NAME']);
     }
 }
