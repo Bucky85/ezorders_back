@@ -23,7 +23,7 @@ class KitchenController extends Controller
                 $db = new DbKitchen();
                 $data = $request->getParsedBody();
                 if ($db->db_create_product($data)) {
-                    return $this->response($response, 201, array("message" => "product successfully created"));
+                    return $this->response($response, 201, array("product" => $_SESSION['last_product_created']));
                 } else {
                     return $this->response($response, 400, array("message" => "product already exists"));
                 }
@@ -32,6 +32,17 @@ class KitchenController extends Controller
             }
         } else {
             return $this->response($response, 400, array("message" => "JSON format not valid"));
+        }
+    }
+
+    function get_product(Request $request, Response $response)
+    {
+        if ($this->check_auth()) {
+            $id_product = $request->getAttribute('id');
+            $db = new DbKitchen();
+            return $this->response($response, 200, $db->db_get_product($id_product));
+        } else {
+            return $this->response($response, 401, array('message' => 'user not logged'));
         }
     }
 }

@@ -1,0 +1,43 @@
+{
+  "properties": {
+    "name": {
+      "$id": "/properties/name",
+      "type": "string",
+      "examples": [
+        "Lasagne"
+      ]
+    },
+    "price": {
+      "$id": "/properties/price",
+      "type": "number",
+      "examples": [
+        10.35
+      ]
+    },
+    "description": {
+      "$id": "/properties/description",
+      "type": "string",
+      "examples": [
+        "Un bon gros plat de maman"
+      ]
+    },
+    "composition": {
+      "$id": "/properties/composition",
+      "type": "string",
+      "examples": [
+        "Tomate,Patte et Bechamel"
+      ]
+    },
+    "category": {
+      "$id": "/properties/category",
+      "type": "string",
+      "examples": [
+        "1"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "price"
+  ]
+}

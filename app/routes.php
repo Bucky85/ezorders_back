@@ -43,3 +43,6 @@ $app->get('/auth/info', \app\controllers\AuthController::class . ':auth_info');
 
 //Kitchen controllers
 $app->post('/customer/kitchen/product', \app\controllers\KitchenController::class . ':create_product');
+$app->get('/customer/kitchen/product', \app\controllers\KitchenController::class . ':get_product');
+$app->get('/customer/kitchen/product/{id}', \app\controllers\KitchenController::class . ':get_product');
+

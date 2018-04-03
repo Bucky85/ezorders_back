@@ -39,4 +39,22 @@ class Db
         }
         return $data;
     }
+
+    /**
+     * Use to search something on the database with one result
+     * @param $query
+     * @param null $projection
+     * @return null
+     */
+    function db_query_one($query, $projection = [])
+    {
+        $data = null;
+        $collection = $this->db_connect();
+        $cursor = $collection->findOne($query, $projection);
+        //fetch data
+        foreach ($cursor as $doc) {
+            $data = $doc;
+        }
+        return $data;
+    }
 }

@@ -23,11 +23,27 @@ class DbKitchen extends Db
             return false;
         } else {
             $collection = $this->db_connect();
-            $data = array('_id' => new MongoDB\BSON\ObjectId()) + $data;
+            $data = array('_id' => (string)new MongoDB\BSON\ObjectId()) + $data;
             $filter = ['_id' => $id];
             $update = ['$push' => array("products" => $data)];
             $collection->updateOne($filter, $update);
+            $_SESSION['last_product_created'] = $data;
             return true;
         }
+    }
+
+    function db_get_product($id_product)
+    {
+        $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
+        if ($id_product == null) {
+            $filter = ['_id' => $id];
+            $projection = ['projection' => ['_id' => 0, 'products' => 1]];
+            return $this->db_query($filter, $projection);
+        } else {
+            $filter = ['_id' => $id, 'products._id' => $id_product];
+            $projection = ['projection' => ['_id' => 0, 'products.$' => 1]];
+            return array("product" => $this->db_query_one($filter, $projection));
+        }
+
     }
 }
