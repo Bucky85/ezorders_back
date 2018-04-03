@@ -8,6 +8,8 @@
 
 namespace app\controllers;
 
+use JsonSchema;
+
 class Controller
 {
     /**
@@ -17,7 +19,7 @@ class Controller
      * @param null $data
      * @return $response updated
      */
-    function controller_response($response, $httpStatus, $data = null)
+    function response($response, $httpStatus, $data = null)
     {
         return $response
             ->withHeader('Content-type', 'application/json')
@@ -33,5 +35,19 @@ class Controller
     {
         session_start();
         return !(empty($_SESSION['id']));
+    }
+
+    /**
+     * Use to check json sended
+     * @param $data
+     * @param $schema
+     * @return JsonSchema\Validator
+     */
+    function check_json($data, $schema)
+    {
+        $data = json_decode($data);
+        $validator = new JsonSchema\Validator;
+        $validator->validate($data, (object)['$ref' => $schema]);
+        return $validator->isValid();
     }
 }

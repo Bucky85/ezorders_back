@@ -9,7 +9,6 @@
 namespace app\controllers;
 
 use app\database\DbAuth;
-use JsonSchema;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -17,48 +16,24 @@ use Slim\Http\Response;
 class AuthController extends Controller
 {
     /**
-     * Function called by the route %server%/auth/signin
+     * Function called by the route %server%/auth/register
      * Use to create an account
      */
-    function auth_signin(Request $request, Response $response)
+    function register(Request $request, Response $response)
     {
-        //CHECK JSON FORMAT
-        $data = json_decode($request->getBody());
-        $schema = realpath(__DIR__ . '\schemas\signin.json');
-        $validator = new JsonSchema\Validator;
-        $validator->validate($data, (object)['$ref' => $schema]);
-        //IF FORMAT IS OK SET RESPONSE
-        if ($validator->isValid()) {
+
+        if ($this->check_json($request->getBody(),
+            realpath(__DIR__ . '\schemas\register.json'))) {
             $db = new DbAuth();
             $data = $request->getParsedBody();
-            if ($db->db_signin($data)) {
-                //INSERT A USER / SHOP IN DB
-                $httpStatus = 201;
-                $data = array(
-                    "inserted" => "true",
-                    "message" => "user successfully created");
+            if ($db->db_register($data)) {
+                return $this->response($response, 201, array("message" => "user successfully created"));
             } else {
-                //GENERATE ERROR FOR A LOGIN ALREADY IN DB
-                $httpStatus = 400;
-                $data = array(
-                    "inserted" => "false",
-                    "message" => "the login already exists");
+                return $this->response($response, 400, array("message" => "the login already exists"));
             }
         } else {
-            //GENERATE ERROR FOR EACH FIELD NOT SEND
-            $i = 0;
-            $errors = null;
-            foreach ($validator->getErrors() as $error) {
-                $i++;
-                $errors[$i] = $error['message'];
-            }
-            //GENERATE DATA FOR THE REQUEST
-            $httpStatus = 400;
-            $data = array(
-                "inserted" => "false",
-                "message" => $errors);
+            return $this->response($response, 400, array("message" => "JSON format not valid"));
         }
-        return $this->controller_response($response, $httpStatus, $data);
     }
 
     /**
@@ -70,13 +45,10 @@ class AuthController extends Controller
     {
         $db = new DbAuth();
         if ($db->db_auth($request->getParam('login'), $request->getParam('password'))) {
-            $httpStatus = 200;
-            $data = array('message' => 'user successfully connect');
+            return $this->response($response, 200, array('message' => 'user successfully connect'));
         } else {
-            $httpStatus = 400;
-            $data = array('message' => 'bad login or password');
+            return $this->response($response, 400, array('message' => 'bad login or password'));
         }
-        return $this->controller_response($response, $httpStatus, $data);
     }
 
     /**
@@ -86,7 +58,7 @@ class AuthController extends Controller
      */
     function auth_current(Request $request, Response $response)
     {
-        return $this->controller_response($response, 200, array("authentified" => $this->check_auth()));
+        return $this->response($response, 200, array("authentified" => $this->check_auth()));
     }
 
     /**
@@ -98,34 +70,28 @@ class AuthController extends Controller
     function auth_info(Request $request, Response $response)
     {
         if ($this->check_auth()) {
-            $httpStatus = 200;
             $db = new DbAuth();
-            $data = $db->db_auth_info();
+            return $this->response($response, 200, $db->db_auth_info());
         } else {
-            $httpStatus = 401;
-            $data = array('message' => "user not logged");
+            return $this->response($response, 401, array('message' => 'user not logged'));
         }
-        return $this->controller_response($response, $httpStatus, $data);
 
     }
 
     /**
-     * Function called by the route %server%/auth/signout
+     * Function called by the route %server%/auth/logout
      * Use to disconnect a user on a user
      * @param Request $request
      * @param Response $response
      * @return response
      */
-    function auth_signout(Request $request, Response $response)
+    function logout(Request $request, Response $response)
     {
         if ($this->check_auth()) {
             session_destroy();
-            $httpStatus = 200;
-            $data = array('message' => "user disconnected");
+            return $this->response($response, 200, array('message' => 'user disconnected'));
         } else {
-            $httpStatus = 401;
-            $data = array('message' => "user not logged");
+            return $this->response($response, 401, array('message' => 'user not logged'));
         }
-        return $this->controller_response($response, $httpStatus, $data);
     }
 }

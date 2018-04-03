@@ -33,10 +33,13 @@ $app->options('/[{path:.*}]', function ($request, $response, $path = null) {
 //Home controller
 $app->get('/', \app\controllers\HomeController::class . ':home');
 
-//Auth controller
-$app->put('/auth/signin', \app\controllers\AuthController::class . ':auth_signin');
+//Auth controllers
+$app->post('/register', \app\controllers\AuthController::class . ':register');
+$app->delete('/logout', \app\controllers\AuthController::class . ':logout');
 $app->post('/auth', \app\controllers\AuthController::class . ':auth');
+
 $app->get('/auth/current', \app\controllers\AuthController::class . ':auth_current');
 $app->get('/auth/info', \app\controllers\AuthController::class . ':auth_info');
-$app->delete('/auth/signout', \app\controllers\AuthController::class . ':auth_signout');
 
+//Kitchen controllers
+$app->post('/customer/kitchen/product', \app\controllers\KitchenController::class . ':create_product');
