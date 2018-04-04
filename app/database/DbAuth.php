@@ -13,7 +13,7 @@ use MongoDB;
 class DbAuth extends Db
 {
     /**
-     * Use to create an account
+     * Use to create an account in mongodb
      * @return true if inserted false is not
      */
     function db_register($data)
@@ -30,7 +30,6 @@ class DbAuth extends Db
     }
 
     /**
-     * Function called by the route %server%/auth
      * Use to authenticate a user
      * @param null $login -> Login send by front in http body
      * @param null $password -> Password send by front in http body
@@ -56,7 +55,7 @@ class DbAuth extends Db
         }
     }
 
-    /** Function called by the route %server%/auth/info
+    /**
      *  Use to know info of user logged
      * @return data info of user
      */

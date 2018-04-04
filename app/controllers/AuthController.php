@@ -16,8 +16,11 @@ use Slim\Http\Response;
 class AuthController extends Controller
 {
     /**
-     * Function called by the route %server%/auth/register
+     * Function called by the route %server%/register (POST)
      * Use to create an account
+     * @param Request $request
+     * @param Response $response
+     * @return new response
      */
     function register(Request $request, Response $response)
     {
@@ -37,9 +40,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Function called by the route %server%/auth
+     * Function called by the route %server%/auth (POST)
      * Use to authenticate a user
-     * @Return id of user or nothing
+     * @param Request $request
+     * @param Response $response
+     * @return new response
      */
     function auth(Request $request, Response $response)
     {
@@ -52,9 +57,12 @@ class AuthController extends Controller
     }
 
     /**
-     * Function called by the route %server%/auth/current
+     * Function called by the route %server%/auth/current (GET)
      * Use to know if user is authentified
      * send result function check auth
+     * @param Request $request
+     * @param Response $response
+     * @return new response
      */
     function auth_current(Request $request, Response $response)
     {
@@ -62,10 +70,11 @@ class AuthController extends Controller
     }
 
     /**
+     * Function called by the route %server%/auth/info (GET)
      * Use to know info of user logged
      * @param Request $request
      * @param Response $response
-     * @return mixed
+     * @return new response
      */
     function auth_info(Request $request, Response $response)
     {
@@ -79,11 +88,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Function called by the route %server%/auth/logout
+     * Function called by the route %server%/logout (DELETE)
      * Use to disconnect a user on a user
      * @param Request $request
      * @param Response $response
-     * @return response
+     * @return new response
      */
     function logout(Request $request, Response $response)
     {

@@ -34,6 +34,13 @@
       "examples": [
         "1"
       ]
+    },
+    "enabled": {
+      "$id": "/properties/enabled",
+      "type": "boolean",
+      "examples": [
+        true
+      ]
     }
   },
   "required": [
