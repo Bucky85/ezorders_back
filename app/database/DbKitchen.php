@@ -10,14 +10,10 @@ namespace app\database;
 
 use MongoDB;
 
-
 class DbKitchen extends Db
 {
-    /**
-     * Use to create product in mongodb
-     * @param $data json
-     * @return bool
-     */
+    var $last_product_id_generated;
+
     function db_create_product($data)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
@@ -28,11 +24,11 @@ class DbKitchen extends Db
             return false;
         } else {
             $collection = $this->db_connect();
-            $data = array('_id' => (string)new MongoDB\BSON\ObjectId()) + $data;
+            $this->last_product_id_generated = (string)new MongoDB\BSON\ObjectId();
+            $data = array('_id' => $this->last_product_id_generated) + $data;
             $filter = ['_id' => $id];
             $update = ['$push' => array("products" => $data)];
             $collection->updateOne($filter, $update);
-            $_SESSION['last_product_created'] = $data;
             return true;
         }
     }
@@ -70,6 +66,7 @@ class DbKitchen extends Db
         $filter = ['_id' => $id, 'products._id' => $id_product];
         $update = ['$set' => array("products.$" => $data)];
         $update_query = $collection->updateOne($filter, $update);
+        $_SESSION['last_product_update'] = $data;
         if ($update_query->getModifiedCount() > 0) {
             return true;
         } else {

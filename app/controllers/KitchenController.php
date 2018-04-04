@@ -30,7 +30,7 @@ class KitchenController extends Controller
                 $db = new DbKitchen();
                 $data = $request->getParsedBody();
                 if ($db->db_create_product($data)) {
-                    return $this->response($response, 201, array("product" => $_SESSION['last_product_created']));
+                    return $this->response($response, 201, $db->db_get_product($db->last_product_id_generated));
                 } else {
                     return $this->response($response, 400, array("message" => "product already exists"));
                 }
@@ -76,7 +76,7 @@ class KitchenController extends Controller
                 $id_product = $request->getAttribute('id');
                 $db = new DbKitchen();
                 if ($db->db_update_product($id_product, $data)) {
-                    return $this->response($response, 200, array('message' => 'product updated'));
+                    return $this->response($response, 200, $db->db_get_product($id_product));
                 } else {
                     return $this->response($response, 200, array("message" => "no data to updated"));
                 }
