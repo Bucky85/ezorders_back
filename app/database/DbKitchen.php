@@ -34,7 +34,7 @@ class DbKitchen extends Db
     }
 
     /**
-     * Use to one or more products
+     * Use to get one or more products
      * @param $id_product
      * @return array|null products
      */
