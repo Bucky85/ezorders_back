@@ -48,7 +48,7 @@ class DbKitchen extends Db
         } else {
             $filter = ['_id' => $id, 'products._id' => $id_product];
             $projection = ['projection' => ['_id' => 0, 'products.$' => 1]];
-            return array("product" => $this->db_query_one($filter, $projection));
+            return array("product" => $this->db_query_one($filter, $projection)[0]);
         }
     }
 
