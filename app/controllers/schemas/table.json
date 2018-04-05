@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "num": {
+      "$id": "/properties/num",
+      "type": "integer",
+      "examples": [
+        704
+      ]
+    },
+    "desc": {
+      "$id": "/properties/desc",
+      "type": "string",
+      "examples": [
+        "N/A"
+      ]
+    },
+    "places": {
+      "$id": "/properties/places",
+      "type": "integer",
+      "examples": [
+        "N/A"
+      ]
+    }
+  },
+  "required": [
+    "num",
+    "places"
+  ]
+}

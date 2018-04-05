@@ -48,7 +48,6 @@ $app->get('/customer/kitchen/products', \app\controllers\KitchenController::clas
 $app->get('/customer/kitchen/products/{id}', \app\controllers\KitchenController::class . ':get_product');
 $app->put('/customer/kitchen/products/{id}', \app\controllers\KitchenController::class . ':update_product');
 $app->delete('/customer/kitchen/products/{id}', \app\controllers\KitchenController::class . ':delete_product');
-
 //MENUS
 $app->post('/customer/kitchen/menus', \app\controllers\KitchenController::class . ':create_menu');
 $app->get('/customer/kitchen/menus', \app\controllers\KitchenController::class . ':get_menu');
@@ -56,6 +55,12 @@ $app->get('/customer/kitchen/menus/{id}', \app\controllers\KitchenController::cl
 $app->put('/customer/kitchen/menus/{id}', \app\controllers\KitchenController::class . ':update_menu');
 $app->delete('/customer/kitchen/menus/{id}', \app\controllers\KitchenController::class . ':delete_menu');
 
-
+//ROOM CONTROLLERS
+//TABLE
+$app->post('/customer/room/tables', \app\controllers\RoomController::class . ':create_table');
+$app->get('/customer/room/tables', \app\controllers\RoomController::class . ':get_table');
+$app->get('/customer/room/tables/{id}', \app\controllers\RoomController::class . ':get_table');
+$app->put('/customer/room/tables/{id}', \app\controllers\RoomController::class . ':update_table');
+$app->delete('/customer/room/tables/{id}', \app\controllers\RoomController::class . ':delete_table');
 
 
