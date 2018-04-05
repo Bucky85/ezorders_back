@@ -156,9 +156,14 @@ class KitchenController extends Controller
     function get_menu(Request $request, Response $response)
     {
         if ($this->check_auth()) {
-            $id_product = $request->getAttribute('id');
+            $id_menu = $request->getAttribute('id');
             $db = new DbKitchen();
-            return $this->response($response, 200, $db->db_get_menu($id_product));
+            $menu = $db->db_get_menu($id_menu);
+            if ($menu['menu'] != null OR $menu['menus'] != null) {
+                return $this->response($response, 200, $menu);
+            } else {
+                return $this->response($response, 404, array('message' => 'resource not found'));
+            }
         } else {
             return $this->response($response, 401, array('message' => 'user not logged'));
         }
