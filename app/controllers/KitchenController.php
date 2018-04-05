@@ -25,8 +25,7 @@ class KitchenController extends Controller
      */
     function create_product(Request $request, Response $response)
     {
-        if ($this->check_json($request->getBody(),
-            realpath(__DIR__ . '\schemas\product.json'))) {
+        if ($this->check_json($request->getBody(), realpath(__DIR__ . '/schemas/product.json'))) {
             if ($this->check_auth()) {
                 $db = new DbKitchen();
                 $data = $request->getParsedBody();
@@ -127,8 +126,7 @@ class KitchenController extends Controller
      */
     function create_menu(Request $request, Response $response)
     {
-        if ($this->check_json($request->getBody(),
-            realpath(__DIR__ . '\schemas\menu.json'))) {
+        if ($this->check_json($request->getBody(), realpath(__DIR__ . '/schemas/menu.json'))) {
             if ($this->check_auth()) {
                 $db = new DbKitchen();
                 $data = $request->getParsedBody();
@@ -177,8 +175,7 @@ class KitchenController extends Controller
      */
     function update_menu(Request $request, Response $response)
     {
-        if ($this->check_json($request->getBody(),
-            realpath(__DIR__ . '\schemas\menu.json'))) {
+        if ($this->check_json($request->getBody(), realpath(__DIR__ . '/schemas/menu.json'))) {
             if ($this->check_auth()) {
                 $data = $request->getParsedBody();
                 $id_menu = $request->getAttribute('id');
