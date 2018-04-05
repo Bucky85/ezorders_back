@@ -8,10 +8,10 @@
 
 namespace app\controllers;
 
-
 use app\database\DbKitchen;
 use Slim\Http\Request;
 use Slim\Http\Response;
+
 
 class KitchenController extends Controller
 {
@@ -76,7 +76,7 @@ class KitchenController extends Controller
     function update_product(Request $request, Response $response)
     {
         $path = __DIR__ . '/schemas/product.json';
-        chmod($path, 777);
+        chdir($_SERVER["DOCUMENT_ROOT"]);
 
         if ($this->check_json($request->getBody(), $path)) {
             if ($this->check_auth()) {
