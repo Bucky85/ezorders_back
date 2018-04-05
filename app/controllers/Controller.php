@@ -47,7 +47,7 @@ class Controller
     {
         $data = json_decode($data);
         $validator = new JsonSchema\Validator;
-        $validator->validate($data, (object)['$ref' => $schema]);
+        $validator->validate($data, (object)['$ref' => 'file://' . $schema]);
         return $validator->isValid();
     }
 }

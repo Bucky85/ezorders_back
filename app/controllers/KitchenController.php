@@ -75,8 +75,7 @@ class KitchenController extends Controller
      */
     function update_product(Request $request, Response $response)
     {
-        var_dump(realpath(__DIR__ . '\schemas\product.json'));
-        if ($this->check_json($request->getBody(), realpath(__DIR__ . '\schemas\product.json'))) {
+        if ($this->check_json($request->getBody(), realpath(__DIR__ . '/schemas/product.json'))) {
             if ($this->check_auth()) {
                 $data = $request->getParsedBody();
                 $id_product = $request->getAttribute('id');
