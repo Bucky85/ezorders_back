@@ -49,4 +49,9 @@ $app->get('/customer/kitchen/products/{id}', \app\controllers\KitchenController:
 $app->put('/customer/kitchen/products/{id}', \app\controllers\KitchenController::class . ':update_product');
 $app->delete('/customer/kitchen/products/{id}', \app\controllers\KitchenController::class . ':delete_product');
 //MENUS
+$app->post('/customer/kitchen/menus', \app\controllers\KitchenController::class . ':create_menu');
+$app->get('/customer/kitchen/menus', \app\controllers\KitchenController::class . ':get_menu');
+$app->get('/customer/kitchen/menus/{id}', \app\controllers\KitchenController::class . ':get_menu');
+
+
 
