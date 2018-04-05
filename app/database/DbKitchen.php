@@ -16,23 +16,21 @@ class DbKitchen extends Db
 
     var $last_product_id_generated;
 
+    /**
+     * Use to create product in db
+     * @param $data
+     * @return bool
+     */
     function db_create_product($data)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
-        $filter = ['_id' => $id,
-            'products.name' => $data["name"]];
-        $projection = ['projection' => ['products.name' => 1]];
-        if (!empty($this->db_query($filter, $projection))) {
-            return false;
-        } else {
-            $collection = $this->db_connect();
-            $this->last_product_id_generated = (string)new MongoDB\BSON\ObjectId();
-            $data = array('_id' => $this->last_product_id_generated) + $data;
-            $filter = ['_id' => $id];
-            $update = ['$push' => array("products" => $data)];
-            $collection->updateOne($filter, $update);
-            return true;
-        }
+        $collection = $this->db_connect();
+        $this->last_product_id_generated = (string)new MongoDB\BSON\ObjectId();
+        $data = array('_id' => $this->last_product_id_generated) + $data;
+        $filter = ['_id' => $id];
+        $update = ['$push' => array("products" => $data)];
+        $collection->updateOne($filter, $update);
+        return true;
     }
 
     /**
@@ -63,23 +61,15 @@ class DbKitchen extends Db
     function db_update_product($id_product, $data)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
-        $filter = ['_id' => $id,
-            'products.name' => $data["name"]];
-        $projection = ['projection' => ['products.name' => 1]];
-        if (!empty($this->db_query($filter, $projection))) {
-            return false;
+        $collection = $this->db_connect();
+        $data = array('_id' => $id_product) + $data;
+        $filter = ['_id' => $id, 'products._id' => $id_product];
+        $update = ['$set' => array("products.$" => $data)];
+        $update_query = $collection->updateOne($filter, $update);
+        if ($update_query->getModifiedCount() > 0) {
+            return true;
         } else {
-            $collection = $this->db_connect();
-            $data = array('_id' => $id_product) + $data;
-            $filter = ['_id' => $id, 'products._id' => $id_product];
-            $update = ['$set' => array("products.$" => $data)];
-            $update_query = $collection->updateOne($filter, $update);
-            $_SESSION['last_product_update'] = $data;
-            if ($update_query->getModifiedCount() > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -106,13 +96,15 @@ class DbKitchen extends Db
 
     var $last_menu_id_generated;
 
+    /**
+     * Use to create menu in db
+     * @param $data
+     * @return bool
+     */
     function db_create_menu($data)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
-        $filter = ['_id' => $id, 'menus.name' => $data["name"]];
-        $projection = ['projection' => ['menus.name' => 1]];
-        if (empty($this->db_query($filter, $projection)) //IF MENU NAME DOESN'T EXISTS
-            AND $this->product_exists($data)) { //AND PRODUCTID EXISTS IN DB
+        if ($this->product_exists($data['products'])) {
             $collection = $this->db_connect();
             $this->last_menu_id_generated = (string)new MongoDB\BSON\ObjectId();
             $data = array('_id' => $this->last_menu_id_generated) + $data;
@@ -125,9 +117,14 @@ class DbKitchen extends Db
         }
     }
 
-    function product_exists($data)
+    /**
+     * Use to know if product in parameter exist in db
+     * @param $products
+     * @return bool
+     */
+    function product_exists($products)
     {
-        foreach ($data['products'] as $id_product) {
+        foreach ($products as $id_product) {
             $product = $this->db_get_product($id_product)['product'];
             if ($product == null OR $product['enabled'] == false) {
                 return false;
@@ -136,6 +133,12 @@ class DbKitchen extends Db
         return true;
     }
 
+
+    /**
+     * Use to get one or more menu
+     * @param $id_menu
+     * @return array|null menus
+     */
     function db_get_menu($id_menu)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
@@ -147,6 +150,50 @@ class DbKitchen extends Db
             $filter = ['_id' => $id, 'menus._id' => $id_menu];
             $projection = ['projection' => ['_id' => 0, 'menus.$' => 1]];
             return array("menu" => $this->db_query_one($filter, $projection)[0]);
+        }
+    }
+
+    /**
+     * Use to update menu
+     * @param $id_menu
+     * @param $data json
+     * @return bool
+     */
+    function db_update_menu($id_menu, $data)
+    {
+        $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
+        if ($this->product_exists($data['products'])) {
+            $collection = $this->db_connect();
+            $data = array('_id' => $id_menu) + $data;
+            $filter = ['_id' => $id, 'menus._id' => $id_menu];
+            $update = ['$set' => array("menus.$" => $data)];
+            $update_query = $collection->updateOne($filter, $update);
+            if ($update_query->getModifiedCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Use to delete menu in mongodb
+     * @param $id_menu
+     * @return bool
+     */
+    function db_delete_menu($id_menu)
+    {
+        $collection = $this->db_connect();
+        $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
+        $filter = ['_id' => $id, 'menus._id' => $id_menu];
+        $update = ['$pull' => array("menus" => array("_id" => $id_menu))];
+        $update_query = $collection->updateOne($filter, $update);
+        if ($update_query->getModifiedCount() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

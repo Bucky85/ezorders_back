@@ -98,6 +98,7 @@ class AuthController extends Controller
     {
         if ($this->check_auth()) {
             session_destroy();
+            setcookie("PHPSESSID", "", time() - 3600);
             return $this->response($response, 200, array('message' => 'user disconnected'));
         } else {
             return $this->response($response, 401, array('message' => 'user not logged'));

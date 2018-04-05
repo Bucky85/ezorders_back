@@ -84,7 +84,7 @@ class KitchenController extends Controller
                 if ($db->db_update_product($id_product, $data)) {
                     return $this->response($response, 200, $db->db_get_product($id_product));
                 } else {
-                    return $this->response($response, 400, array("message" => "bad if or data"));
+                    return $this->response($response, 400, array("message" => "bad id or data"));
                 }
             } else {
                 return $this->response($response, 401, array('message' => 'user not logged'));
@@ -163,6 +163,56 @@ class KitchenController extends Controller
                 return $this->response($response, 200, $menu);
             } else {
                 return $this->response($response, 404, array('message' => 'resource not found'));
+            }
+        } else {
+            return $this->response($response, 401, array('message' => 'user not logged'));
+        }
+    }
+
+    /**
+     * Function called by the route %server%/menus/{id} (PUT)
+     * Use to update menu
+     * @param Request $request
+     * @param Response $response
+     * @return new response
+     */
+    function update_menu(Request $request, Response $response)
+    {
+        if ($this->check_json($request->getBody(),
+            realpath(__DIR__ . '\schemas\menu.json'))) {
+            if ($this->check_auth()) {
+                $data = $request->getParsedBody();
+                $id_menu = $request->getAttribute('id');
+                $db = new DbKitchen();
+                if ($db->db_update_menu($id_menu, $data)) {
+                    return $this->response($response, 200, $db->db_get_menu($id_menu));
+                } else {
+                    return $this->response($response, 400, array("message" => "bad id or data"));
+                }
+            } else {
+                return $this->response($response, 401, array('message' => 'user not logged'));
+            }
+        } else {
+            return $this->response($response, 400, array("message" => "JSON format not valid"));
+        }
+    }
+
+    /**
+     * Function called by the route %server%/menus/{id} (DELETE)
+     * Use to delete product
+     * @param Request $request
+     * @param Response $response
+     * @return new response
+     */
+    function delete_menu(Request $request, Response $response)
+    {
+        if ($this->check_auth()) {
+            $id_menu = $request->getAttribute('id');
+            $db = new DbKitchen();
+            if ($db->db_delete_menu($id_menu)) {
+                return $this->response($response, 200, array('message' => 'product deleted'));
+            } else {
+                return $this->response($response, 200, array("message" => "no data to deleted"));
             }
         } else {
             return $this->response($response, 401, array('message' => 'user not logged'));
