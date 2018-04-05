@@ -75,7 +75,9 @@ class KitchenController extends Controller
      */
     function update_product(Request $request, Response $response)
     {
-        $path = realpath(__DIR__ . '/schemas/product.json');
+        $path = __DIR__ . '/schemas/product.json';
+        chmod($path, 777);
+
         if ($this->check_json($request->getBody(), $path)) {
             if ($this->check_auth()) {
                 $data = $request->getParsedBody();
