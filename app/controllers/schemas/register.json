@@ -64,14 +64,7 @@
             "068835102"
           ]
         }
-      },
-      "required": [
-        "name",
-        "address",
-        "postcode",
-        "location",
-        "tel"
-      ]
+      }
     }
   },
   "required": [

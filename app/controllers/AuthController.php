@@ -26,7 +26,7 @@ class AuthController extends Controller
     {
 
         if ($this->check_json($request->getBody(),
-            realpath(__DIR__ . '\schemas\register.json'))) {
+            realpath(__DIR__ . '/schemas/register.json'))) {
             $db = new DbAuth();
             $data = $request->getParsedBody();
             if ($db->db_register($data)) {
