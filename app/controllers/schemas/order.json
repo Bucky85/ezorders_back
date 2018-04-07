@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "properties": {
+    "num": {
+      "$id": "/properties/num",
+      "type": "string",
+      "examples": [
+        "000006"
+      ]
+    },
+    "table": {
+      "$id": "/properties/table",
+      "type": "string",
+      "examples": [
+        "5ac6565244dba004c000109d"
+      ]
+    },
+    "products": {
+      "$id": "/properties/products",
+      "type": "array",
+      "items": {
+        "$id": "/properties/products/items",
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$id": "/properties/products/items/properties/_id",
+            "type": "string",
+            "examples": [
+              "5ac6565288dba004c000109d"
+            ]
+          },
+          "quantity": {
+            "$id": "/properties/products/items/properties/quantity",
+            "type": "integer",
+            "examples": [
+              2
+            ]
+          }
+        }
+      }
+    },
+    "menus": {
+      "$id": "/properties/menus",
+      "type": "array",
+      "items": {
+        "$id": "/properties/menus/items",
+        "type": "object",
+        "properties": {
+          "_id": {
+            "$id": "/properties/menus/items/properties/_id",
+            "type": "string",
+            "title": "The _id Schema ",
+            "default": "",
+            "examples": [
+              "5ac6566f88dba004c00010a0"
+            ]
+          },
+          "quantity": {
+            "$id": "/properties/menus/items/properties/quantity",
+            "type": "integer",
+            "title": "The Quantity Schema ",
+            "default": 0,
+            "examples": [
+              2
+            ]
+          }
+        }
+      }
+    }
+  }
+}

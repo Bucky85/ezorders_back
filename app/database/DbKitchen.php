@@ -104,7 +104,7 @@ class DbKitchen extends Db
     function db_create_menu($data)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
-        if ($this->product_exists($data['products'])) {
+        if ($this->product_in_menu_exists($data['products'])) {
             $collection = $this->db_connect();
             $this->last_menu_id_generated = (string)new MongoDB\BSON\ObjectId();
             $data = array('_id' => $this->last_menu_id_generated) + $data;
@@ -122,7 +122,7 @@ class DbKitchen extends Db
      * @param $products
      * @return bool
      */
-    function product_exists($products)
+    function product_in_menu_exists($products)
     {
         foreach ($products as $id_product) {
             $product = $this->db_get_product($id_product)['product'];
@@ -132,7 +132,6 @@ class DbKitchen extends Db
         }
         return true;
     }
-
 
     /**
      * Use to get one or more menu
@@ -162,7 +161,7 @@ class DbKitchen extends Db
     function db_update_menu($id_menu, $data)
     {
         $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
-        if ($this->product_exists($data['products'])) {
+        if ($this->product_in_menu_exists($data['products'])) {
             $collection = $this->db_connect();
             $data = array('_id' => $id_menu) + $data;
             $filter = ['_id' => $id, 'menus._id' => $id_menu];
