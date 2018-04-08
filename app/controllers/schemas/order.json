@@ -4,15 +4,25 @@
     "num": {
       "$id": "/properties/num",
       "type": "string",
+      "default": "",
       "examples": [
-        "000006"
+        "000001"
       ]
     },
     "table": {
       "$id": "/properties/table",
       "type": "string",
+      "default": "",
       "examples": [
-        "5ac6565244dba004c000109d"
+        "5ac80c1f88dba0175000405d"
+      ]
+    },
+    "ready": {
+      "$id": "/properties/ready",
+      "type": "boolean",
+      "default": false,
+      "examples": [
+        false
       ]
     },
     "products": {
@@ -25,15 +35,25 @@
           "_id": {
             "$id": "/properties/products/items/properties/_id",
             "type": "string",
+            "default": "",
             "examples": [
-              "5ac6565288dba004c000109d"
+              "5ac80e3888dba01750004061"
             ]
           },
           "quantity": {
             "$id": "/properties/products/items/properties/quantity",
             "type": "integer",
+            "default": 0,
             "examples": [
-              2
+              1
+            ]
+          },
+          "note": {
+            "$id": "/properties/products/items/properties/note",
+            "type": "string",
+            "default": "",
+            "examples": [
+              ""
             ]
           }
         }
@@ -49,19 +69,22 @@
           "_id": {
             "$id": "/properties/menus/items/properties/_id",
             "type": "string",
-            "title": "The _id Schema ",
-            "default": "",
             "examples": [
-              "5ac6566f88dba004c00010a0"
+              "5ac8104088dba01750004066"
             ]
           },
           "quantity": {
             "$id": "/properties/menus/items/properties/quantity",
             "type": "integer",
-            "title": "The Quantity Schema ",
-            "default": 0,
             "examples": [
               2
+            ]
+          },
+          "note": {
+            "$id": "/properties/menus/items/properties/note",
+            "type": "string",
+            "examples": [
+              ""
             ]
           }
         }

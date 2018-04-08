@@ -96,7 +96,6 @@ class DbRoom extends Db
 
     //-----------------------------ORDERS----------------------------------------------------------------------//
 
-
     var $last_order_id_generated;
 
     /**
@@ -107,17 +106,17 @@ class DbRoom extends Db
     function db_create_order($data)
     {
         date_default_timezone_set('Europe/Paris');
-
         if ($this->product_in_order_exists($data['products'])
             and $this->menu_in_order_exists($data['menus'])
             and $this->table_in_order_exists($data['table'])) {
-            $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
-            $date_cre = date('Y-m-d H:i:s');
             $collection = $this->db_connect();
+            $date_cre = date('Y-m-d H:i:s');
+            $stat = new DbStat();
             $this->last_order_id_generated = (string)new MongoDB\BSON\ObjectId();
-            $data = array('_id' => $this->last_order_id_generated) +
-                array('createdAt' => $date_cre) +
-                $data;
+            $data = array('_id' => $this->last_order_id_generated,
+                    'createdAt' => $date_cre,
+                    'num' => $stat->raise_count_orders()) + $data;
+            $id = new MongoDB\BSON\ObjectId($_SESSION['id']);
             $filter = ['_id' => $id];
             $update = ['$push' => array("orders" => $data)];
             $collection->updateOne($filter, $update);
