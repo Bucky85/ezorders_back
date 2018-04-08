@@ -169,12 +169,10 @@ class DbRoom extends Db
      */
     function table_in_order_exists($table)
     {
-        foreach ($table as $id_table) {
-            $product = $this->db_get_table($id_table)['table'];
-            if ($product == null) {
+        $table = $this->db_get_table($table)['table'];
+        if ($table == null) {
                 return false;
             }
-        }
         return true;
     }
 
