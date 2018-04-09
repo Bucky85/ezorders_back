@@ -79,13 +79,6 @@
             "examples": [
               2
             ]
-          },
-          "note": {
-            "$id": "/properties/menus/items/properties/note",
-            "type": "string",
-            "examples": [
-              ""
-            ]
           }
         }
       }
